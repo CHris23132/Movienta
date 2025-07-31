@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movienta - 28-Day AI Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            font-weight: normal;
+            color: #8B5CF6;
+            text-decoration: none;
+        }
+
+        .menu-icon {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            width: 100%;
+            height: 2px;
+            background-color: #333333;
+            transition: all 0.3s ease;
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .trust-badge {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .trust-badge h3 {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 6px;
+        }
+
+        .trust-badge .icon {
+            width: 28px;
+            height: 28px;
+            margin: 0 auto 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .trust-badge .icon.purple {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+        }
+
+        .trust-badge .icon.green {
+            background-color: #10B981;
+        }
+
+        .trust-badge p {
+            font-size: 0.65rem;
+            color: #333333;
+            margin: 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            text-align: center;
+            margin: 20px 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 16px;
+            margin: 0 auto 15px;
+            display: block;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .challenge-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 12px;
+        }
+
+        .question {
+            font-size: 1rem;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 90px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 15px 0;
+            color: #6B7280;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #3B82F6;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .header {
+                justify-content: center;
+            }
+
+            .menu-icon {
+                position: absolute;
+                right: 15px;
+            }
+
+            .logo {
+                font-size: 1.6rem;
+            }
+
+            .trust-badges {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .trust-badge {
+                min-width: 140px;
+            }
+
+            .challenge-title {
+                font-size: 1.6rem;
+            }
+
+            .question {
+                font-size: 0.9rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 0;
+                justify-content: center;
+            }
+
+            .menu-icon {
+                position: absolute;
+                right: 10px;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .challenge-title {
+                font-size: 1.4rem;
+            }
+
+            .question {
+                font-size: 0.8rem;
+            }
+
+            .cta-button {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="#" class="logo">Movienta</a>
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </header>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges">
+            <div class="trust-badge">
+                <h3>700K+ USERS' CHOICE</h3>
+                <div class="icon purple">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
+                </div>
+                <p>Learned new skills.</p>
+            </div>
+            <div class="trust-badge">
+                <h3>RATED ON TRUSTPILOT</h3>
+                <div class="icon green">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                    </svg>
+                </div>
+                <p>4.5 Satisfaction Score</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <img src="../Images/Hero-Image-One.png" alt="AI Challenge Hero" class="hero-image">
+            
+            <h1 class="challenge-title">28-DAY AI CHALLENGE</h1>
+            
+            <p class="question">HAVE YOU EVER USED AI?</p>
+            
+            <div class="button-group">
+                <button class="cta-button">YES ></button>
+                <button class="cta-button">NO ></button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>By proceeding, you agree with <a href="#">Terms and Conditions</a>,</p>
+            <p><a href="#">Privacy Policy</a>, <a href="#">Subscription Terms</a></p>
+            <p>Movienta Inc. Toronto, Canada</p>
+        </footer>
+    </div>
+</body>
+</html>
