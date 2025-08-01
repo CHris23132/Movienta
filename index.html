@@ -80,27 +80,30 @@
             background-color: #f8f9fa;
             border: 1px solid #e9ecef;
             border-radius: 12px;
-            padding: 16px;
-            text-align: center;
+            padding: 12px 16px;
+            text-align: left;
             flex: 1;
             min-width: 160px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .trust-badge h3 {
             font-size: 0.8rem;
             font-weight: 600;
             color: #333333;
-            margin-bottom: 8px;
+            margin: 0;
         }
 
         .trust-badge .icon {
-            width: 32px;
-            height: 32px;
-            margin: 0 auto 8px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .trust-badge .icon.purple {
@@ -112,9 +115,10 @@
         }
 
         .trust-badge p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #333333;
             margin: 0;
+            display: none;
         }
 
         /* Main Content */
@@ -157,7 +161,7 @@
             gap: 12px;
             margin-bottom: 20px;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -166,14 +170,14 @@
             background: linear-gradient(135deg, #8B5CF6, #A855F7);
             color: white;
             border: none;
-            padding: 16px 40px;
+            padding: 16px 50px;
             font-size: 1rem;
             font-weight: 600;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             flex: 1;
-            min-width: 120px;
+            min-width: 150px;
             position: relative;
             overflow: hidden;
         }
@@ -245,21 +249,21 @@
 
             .trust-badge {
                 flex: 1;
-                min-width: 140px;
-                padding: 12px;
+                min-width: 120px;
+                padding: 10px 12px;
             }
 
             .trust-badge h3 {
-                font-size: 0.7rem;
+                font-size: 0.65rem;
             }
 
             .trust-badge .icon {
-                width: 28px;
-                height: 28px;
+                width: 20px;
+                height: 20px;
             }
 
             .trust-badge p {
-                font-size: 0.65rem;
+                font-size: 0.6rem;
             }
 
             .challenge-title {
@@ -274,13 +278,13 @@
                 flex-direction: row;
                 align-items: center;
                 gap: 10px;
-                max-width: 350px;
+                max-width: 450px;
             }
 
             .cta-button {
                 flex: 1;
-                min-width: 100px;
-                padding: 14px 30px;
+                min-width: 130px;
+                padding: 14px 40px;
                 font-size: 0.9rem;
             }
         }
@@ -307,21 +311,21 @@
 
             .trust-badge {
                 flex: 1;
-                min-width: 120px;
-                padding: 10px;
+                min-width: 100px;
+                padding: 8px 10px;
             }
 
             .trust-badge h3 {
-                font-size: 0.6rem;
+                font-size: 0.55rem;
             }
 
             .trust-badge .icon {
-                width: 24px;
-                height: 24px;
+                width: 18px;
+                height: 18px;
             }
 
             .trust-badge p {
-                font-size: 0.55rem;
+                font-size: 0.5rem;
             }
 
             .challenge-title {
@@ -334,13 +338,13 @@
 
             .button-group {
                 gap: 8px;
-                max-width: 300px;
+                max-width: 400px;
             }
 
             .cta-button {
                 flex: 1;
-                min-width: 80px;
-                padding: 12px 25px;
+                min-width: 110px;
+                padding: 12px 35px;
                 font-size: 0.8rem;
             }
         }
