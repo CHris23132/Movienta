@@ -38,7 +38,7 @@
 
         .logo {
             font-family: 'Brush Script MT', cursive;
-            font-size: 2rem;
+            font-size: 3rem;
             font-weight: normal;
             color: #8B5CF6;
             text-decoration: none;
@@ -70,28 +70,33 @@
             justify-content: center;
             gap: 12px;
             margin: 15px 0;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .trust-badge {
             background-color: #f8f9fa;
             border: 1px solid #e9ecef;
             border-radius: 12px;
-            padding: 12px;
+            padding: 16px;
             text-align: center;
-            min-width: 140px;
+            flex: 1;
+            min-width: 160px;
         }
 
         .trust-badge h3 {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: #333333;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .trust-badge .icon {
-            width: 28px;
-            height: 28px;
-            margin: 0 auto 6px;
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -107,7 +112,7 @@
         }
 
         .trust-badge p {
-            font-size: 0.65rem;
+            font-size: 0.75rem;
             color: #333333;
             margin: 0;
         }
@@ -151,19 +156,41 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-button {
             background: linear-gradient(135deg, #8B5CF6, #A855F7);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 0.9rem;
+            padding: 16px 40px;
+            font-size: 1rem;
             font-weight: 600;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 90px;
+            flex: 1;
+            min-width: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-button:hover {
@@ -206,18 +233,82 @@
             }
 
             .logo {
-                font-size: 1.6rem;
+                font-size: 2.4rem;
             }
 
             .trust-badges {
                 flex-direction: row;
                 align-items: center;
                 gap: 8px;
+                max-width: 350px;
             }
 
             .trust-badge {
+                flex: 1;
+                min-width: 140px;
+                padding: 12px;
+            }
+
+            .trust-badge h3 {
+                font-size: 0.7rem;
+            }
+
+            .trust-badge .icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .trust-badge p {
+                font-size: 0.65rem;
+            }
+
+            .challenge-title {
+                font-size: 1.6rem;
+            }
+
+            .question {
+                font-size: 0.9rem;
+            }
+
+            .button-group {
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+                max-width: 350px;
+            }
+
+            .cta-button {
+                flex: 1;
+                min-width: 100px;
+                padding: 14px 30px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 0;
+                justify-content: center;
+            }
+
+            .menu-icon {
+                position: absolute;
+                right: 10px;
+            }
+
+            .logo {
+                font-size: 2.1rem;
+            }
+
+            .trust-badges {
+                gap: 6px;
+                max-width: 300px;
+            }
+
+            .trust-badge {
+                flex: 1;
                 min-width: 120px;
-                padding: 8px;
+                padding: 10px;
             }
 
             .trust-badge h3 {
@@ -234,64 +325,6 @@
             }
 
             .challenge-title {
-                font-size: 1.6rem;
-            }
-
-            .question {
-                font-size: 0.9rem;
-            }
-
-            .button-group {
-                flex-direction: row;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .cta-button {
-                min-width: 80px;
-                padding: 10px 20px;
-                font-size: 0.8rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                padding: 10px 0;
-                justify-content: center;
-            }
-
-            .menu-icon {
-                position: absolute;
-                right: 10px;
-            }
-
-            .logo {
-                font-size: 1.4rem;
-            }
-
-            .trust-badges {
-                gap: 6px;
-            }
-
-            .trust-badge {
-                min-width: 100px;
-                padding: 6px;
-            }
-
-            .trust-badge h3 {
-                font-size: 0.55rem;
-            }
-
-            .trust-badge .icon {
-                width: 20px;
-                height: 20px;
-            }
-
-            .trust-badge p {
-                font-size: 0.5rem;
-            }
-
-            .challenge-title {
                 font-size: 1.4rem;
             }
 
@@ -301,12 +334,14 @@
 
             .button-group {
                 gap: 8px;
+                max-width: 300px;
             }
 
             .cta-button {
-                min-width: 70px;
-                padding: 8px 16px;
-                font-size: 0.75rem;
+                flex: 1;
+                min-width: 80px;
+                padding: 12px 25px;
+                font-size: 0.8rem;
             }
         }
     </style>
