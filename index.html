@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movienta - 28-Day AI Challenge</title>
+    <link rel="icon" type="image/png" href="Images/favicon-montevia.png">
     <style>
         * {
             margin: 0;
@@ -16,6 +17,12 @@
             background-color: #ffffff;
             color: #333333;
             line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
         }
 
         .container {
@@ -68,6 +75,10 @@
             transition: all 0.3s ease;
         }
 
+        .dark-mode .menu-icon span {
+            background-color: #ffffff;
+        }
+
         /* Trust Badges */
         .trust-badges {
             display: flex;
@@ -91,6 +102,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .dark-mode .trust-badge {
+            background-color: #2d2d2d;
+            border-color: #404040;
         }
 
         .trust-badge h3 {
@@ -98,6 +115,11 @@
             font-weight: 600;
             color: #333333;
             margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .trust-badge h3 {
+            color: #ffffff;
         }
 
         .trust-badge .icon {
@@ -123,6 +145,11 @@
             color: #333333;
             margin: 0;
             display: none;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .trust-badge p {
+            color: #ffffff;
         }
 
         /* Main Content */
@@ -150,12 +177,22 @@
             font-weight: 700;
             color: #333333;
             margin-bottom: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .challenge-title {
+            color: #ffffff;
         }
 
         .question {
             font-size: 1rem;
             color: #333333;
             margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .question {
+            color: #ffffff;
         }
 
         /* Buttons */
@@ -214,11 +251,21 @@
             font-size: 0.75rem;
             line-height: 1.3;
             margin-top: auto;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .footer {
+            color: #9CA3AF;
         }
 
         .footer a {
             color: #3B82F6;
             text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .footer a {
+            color: #60A5FA;
         }
 
         .footer a:hover {
@@ -353,6 +400,27 @@
             }
         }
     </style>
+    <script>
+        // Dark mode functionality based on time of day
+        function setDarkMode() {
+            const now = new Date();
+            const hour = now.getHours();
+            const body = document.body;
+            
+            // Switch to dark mode after 6 PM (18:00) and before 6 AM (06:00)
+            if (hour >= 18 || hour < 6) {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+        }
+
+        // Set initial dark mode state
+        setDarkMode();
+
+        // Check for time changes every minute
+        setInterval(setDarkMode, 60000);
+    </script>
 </head>
 <body>
     <div class="container">
