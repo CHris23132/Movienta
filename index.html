@@ -37,11 +37,15 @@
         }
 
         .logo {
-            font-family: 'Brush Script MT', cursive;
-            font-size: 3rem;
-            font-weight: normal;
-            color: #8B5CF6;
-            text-decoration: none;
+            display: block;
+            height: 60px;
+            width: auto;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
         }
 
         .menu-icon {
@@ -107,7 +111,7 @@
         }
 
         .trust-badge .icon.purple {
-            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            background: linear-gradient(135deg, #36b7ff, #1e88e5);
         }
 
         .trust-badge .icon.green {
@@ -167,7 +171,7 @@
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #8B5CF6, #A855F7);
+            background: linear-gradient(135deg, #36b7ff, #1e88e5);
             color: white;
             border: none;
             padding: 16px 50px;
@@ -199,7 +203,7 @@
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 8px 25px rgba(54, 183, 255, 0.3);
         }
 
         /* Footer */
@@ -237,7 +241,7 @@
             }
 
             .logo {
-                font-size: 2.4rem;
+                height: 50px;
             }
 
             .trust-badges {
@@ -301,7 +305,7 @@
             }
 
             .logo {
-                font-size: 2.1rem;
+                height: 45px;
             }
 
             .trust-badges {
@@ -354,7 +358,9 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <a href="#" class="logo">Movienta</a>
+            <a href="#" class="logo">
+                <img src="Images/Movienta-Box-logo.png" alt="Movienta Logo">
+            </a>
             <div class="menu-icon">
                 <span></span>
                 <span></span>
@@ -365,7 +371,7 @@
         <!-- Trust Badges -->
         <div class="trust-badges">
             <div class="trust-badge">
-                <h3>700K+ USERS' CHOICE</h3>
+            <h3>FROM AI BEGINNERS TO ADVANCED 30k+</h3>
                 <div class="icon purple">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                         <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
@@ -374,7 +380,7 @@
                 <p>Learned new skills.</p>
             </div>
             <div class="trust-badge">
-                <h3>RATED ON TRUSTPILOT</h3>
+                <h3>FIVE STAR RATED SUCCESS RATE</h3>
                 <div class="icon green">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                         <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
