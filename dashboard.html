@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Movienta</title>
+    <link rel="icon" type="image/png" href="Images/favicon-montevia.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dark-mode .header {
+            border-bottom-color: #404040;
+        }
+
+        .logo {
+            display: block;
+            height: 60px;
+            width: auto;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-email {
+            font-size: 0.9rem;
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .dark-mode .user-email {
+            color: #9CA3AF;
+        }
+
+        .logout-button {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            width: 100%;
+            height: 2px;
+            background-color: #333333;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .menu-icon span {
+            background-color: #ffffff;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .dark-mode .sidebar {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .dark-mode .sidebar-header {
+            border-bottom-color: #404040;
+        }
+
+        .sidebar-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333333;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .close-sidebar {
+            color: #ffffff;
+        }
+
+        .close-sidebar:hover {
+            background-color: #f3f4f6;
+        }
+
+        .dark-mode .close-sidebar:hover {
+            background-color: #404040;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 15px 20px;
+            color: #333333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .dark-mode .nav-item {
+            color: #ffffff;
+        }
+
+        .nav-item:hover {
+            background-color: #f3f4f6;
+            border-left-color: #36b7ff;
+            color: #36b7ff;
+        }
+
+        .dark-mode .nav-item:hover {
+            background-color: #404040;
+        }
+
+        .nav-item.active {
+            background-color: #f3f4f6;
+            border-left-color: #36b7ff;
+            color: #36b7ff;
+        }
+
+        .dark-mode .nav-item.active {
+            background-color: #404040;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px 0;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .dashboard-title {
+            color: #ffffff;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.1rem;
+            color: #6B7280;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .dashboard-subtitle {
+            color: #9CA3AF;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .dashboard-card {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-color: #404040;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .dark-mode .dashboard-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .card-title {
+            color: #ffffff;
+        }
+
+        .card-content {
+            color: #6B7280;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .card-content {
+            color: #9CA3AF;
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, #36b7ff, #1e88e5);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .card-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(54, 183, 255, 0.3);
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, #36b7ff, #1e88e5);
+            color: white;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #6B7280;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            margin-top: auto;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .footer {
+            color: #9CA3AF;
+        }
+
+        .footer a {
+            color: #3B82F6;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .footer a {
+            color: #60A5FA;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .user-info {
+                order: 2;
+            }
+
+            .menu-icon {
+                order: 3;
+                align-self: flex-end;
+            }
+
+            .dashboard-title {
+                font-size: 2rem;
+            }
+
+            .dashboard-subtitle {
+                font-size: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .dashboard-card {
+                padding: 25px;
+            }
+
+            .welcome-section {
+                padding: 30px 20px;
+            }
+
+            .welcome-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-title {
+                font-size: 1.8rem;
+            }
+
+            .dashboard-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .dashboard-card {
+                padding: 20px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .welcome-section {
+                padding: 25px 15px;
+            }
+
+            .welcome-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+    <script>
+        // Firebase Authentication
+        let auth = null;
+        let isInitialized = false;
+        let currentUser = null;
+
+        // Dark mode functionality based on time of day
+        function setDarkMode() {
+            const now = new Date();
+            const hour = now.getHours();
+            const body = document.body;
+            
+            // Switch to dark mode after 6 PM (18:00) and before 6 AM (06:00)
+            if (hour >= 18 || hour < 6) {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+        }
+
+        async function initializeFirebase() {
+            if (isInitialized) return;
+
+            try {
+                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+                const { getAuth, onAuthStateChanged, signOut } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBbg2kmr-MheZ3J6LIZFfxc5DlaXX-OIrc",
+                    authDomain: "movienta-9a9df.firebaseapp.com",
+                    projectId: "movienta-9a9df",
+                    storageBucket: "movienta-9a9df.firebasestorage.app",
+                    messagingSenderId: "724286492463",
+                    appId: "1:724286492463:web:ed652c5aef1cc387d6dbda",
+                    measurementId: "G-1KQPST3N1G"
+                };
+
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                isInitialized = true;
+
+                // Listen for auth state changes
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        currentUser = user;
+                        updateUserInfo();
+                    } else {
+                        // Redirect to login if not authenticated
+                        window.location.href = 'login.html';
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error initializing Firebase:', error);
+                // Redirect to login if Firebase fails
+                window.location.href = 'login.html';
+            }
+        }
+
+        function updateUserInfo() {
+            if (currentUser) {
+                const userEmail = document.getElementById('userEmail');
+                if (userEmail) {
+                    userEmail.textContent = currentUser.email;
+                }
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                const { signOut } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+                await signOut(auth);
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        }
+
+        // Sidebar functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Set initial dark mode state after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setDarkMode();
+            // Check for time changes every minute
+            setInterval(setDarkMode, 60000);
+            
+            // Initialize Firebase
+            initializeFirebase();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                <img src="Images/Movienta-Box-logo.png" alt="Movienta Logo">
+            </a>
+            
+            <div class="user-info">
+                <span class="user-email" id="userEmail">Loading...</span>
+                <button class="logout-button" onclick="handleLogout()">Logout</button>
+            </div>
+            
+            <div class="menu-icon" onclick="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </header>
+
+        <!-- Sidebar Menu -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="Images/Movienta-Box-logo.png" alt="Movienta Logo" class="sidebar-logo">
+                <button class="close-sidebar" onclick="toggleSidebar()">×</button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="login.html" class="nav-item">Login</a>
+            </nav>
+        </div>
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Welcome to Your Dashboard</h1>
+                <p class="dashboard-subtitle">Manage your AI learning journey and track your progress</p>
+            </div>
+
+            <div class="welcome-section">
+                <h2 class="welcome-title">🎉 Welcome Back!</h2>
+                <p class="welcome-text">You're now ready to start your AI learning adventure with Movienta</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3 class="card-title">📚 Start Learning</h3>
+                    <p class="card-content">Begin your AI journey with our comprehensive learning modules designed for all skill levels.</p>
+                    <button class="card-button" onclick="window.location.href='index.html'">Start Learning</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-title">📊 Your Progress</h3>
+                    <p class="card-content">Track your learning progress, completed modules, and achievements in your personalized dashboard.</p>
+                    <button class="card-button" onclick="alert('Progress tracking coming soon!')">View Progress</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-title">🎯 AI Assessment</h3>
+                    <p class="card-content">Take our AI assessment to get personalized recommendations and track your skill development.</p>
+                    <button class="card-button" onclick="window.location.href='questionnaire.html'">Take Assessment</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3 class="card-title">⚙️ Account Settings</h3>
+                    <p class="card-content">Manage your account preferences, update your profile, and customize your learning experience.</p>
+                    <button class="card-button" onclick="alert('Account settings coming soon!')">Settings</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>By proceeding, you agree with <a href="#">Terms and Conditions</a>,</p>
+            <p><a href="#">Privacy Policy</a>, <a href="#">Subscription Terms</a></p>
+            <p>Movienta Inc. Toronto, Canada</p>
+        </footer>
+    </div>
+</body>
+</html> 
