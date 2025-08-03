@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assessment - Step 7 - Movienta</title>
+    <link rel="icon" type="image/png" href="Images/favicon-montevia.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 0;
+            position: relative;
+        }
+
+        .logo {
+            display: block;
+            height: 60px;
+            width: auto;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .menu-icon {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .menu-icon span {
+            width: 100%;
+            height: 2px;
+            background-color: #333333;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .menu-icon span {
+            background-color: #ffffff;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .dark-mode .progress-bar {
+            background-color: #374151;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #36b7ff, #1e88e5);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 100%;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #6B7280;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .progress-text {
+            color: #9CA3AF;
+        }
+
+        /* Question Container */
+        .question-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .question {
+            color: #ffffff;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .option-button {
+            background: linear-gradient(135deg, #36b7ff, #1e88e5);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .option-button:hover::before {
+            left: 100%;
+        }
+
+        .option-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(54, 183, 255, 0.3);
+        }
+
+        /* Results Container */
+        .results-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .results-summary {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .results-summary {
+            background: #2d2d2d;
+        }
+
+        .results-summary h3 {
+            margin-bottom: 15px;
+            color: #36b7ff;
+            text-align: center;
+        }
+
+        .results-summary p {
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .results-summary strong {
+            color: #36b7ff;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 15px 0;
+            color: #6B7280;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            margin-top: auto;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .footer {
+            color: #9CA3AF;
+        }
+
+        .footer a {
+            color: #3B82F6;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .footer a {
+            color: #60A5FA;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .logo {
+                height: 50px;
+            }
+
+            .question {
+                font-size: 1.3rem;
+            }
+
+            .option-button {
+                padding: 14px 25px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 0;
+            }
+
+            .logo {
+                height: 45px;
+            }
+
+            .question {
+                font-size: 1.2rem;
+            }
+
+            .option-button {
+                padding: 12px 20px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+    <script>
+        // Dark mode functionality based on time of day
+        function setDarkMode() {
+            const now = new Date();
+            const hour = now.getHours();
+            const body = document.body;
+            
+            // Switch to dark mode after 6 PM (18:00) and before 6 AM (06:00)
+            if (hour >= 18 || hour < 6) {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+        }
+
+        // Set initial dark mode state
+        setDarkMode();
+
+        // Check for time changes every minute
+        setInterval(setDarkMode, 60000);
+
+        function selectOption(answer) {
+            // Store the answer in localStorage
+            localStorage.setItem('step7', answer);
+            
+            // Show results
+            showResults();
+        }
+
+        function showResults() {
+            const questionContainer = document.querySelector('.question-container');
+            const step1 = localStorage.getItem('step1');
+            const step2 = localStorage.getItem('step2');
+            const step3 = localStorage.getItem('step3');
+            const step4 = localStorage.getItem('step4');
+            const step5 = localStorage.getItem('step5');
+            const step6 = localStorage.getItem('step6');
+            const step7 = localStorage.getItem('step7');
+
+            questionContainer.innerHTML = `
+                <div class="question">THANK YOU FOR COMPLETING THE ASSESSMENT!</div>
+                <div class="results-summary">
+                    <h3>Your AI Profile:</h3>
+                    <p><strong>AI Experience:</strong> ${step2}</p>
+                    <p><strong>Primary Goal:</strong> ${step3}</p>
+                    <p><strong>Income Level:</strong> ${step4}</p>
+                    <p><strong>Time Available:</strong> ${step5}</p>
+                    <p><strong>Biggest Challenge:</strong> ${step6}</p>
+                    <p><strong>Success Goal:</strong> ${step7}</p>
+                </div>
+                <button class="option-button" onclick="window.location.href='index.html'">Start Your AI Journey</button>
+            `;
+            
+            // Update progress to 100%
+            const progressText = document.querySelector('.progress-text');
+            progressText.textContent = 'Complete!';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="#" class="logo">
+                <img src="Images/Movienta-Box-logo.png" alt="Movienta Logo">
+            </a>
+            <div class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-text">Step 7 of 7</div>
+        </div>
+
+        <!-- Question Container -->
+        <div class="question-container">
+            <div class="question">WHAT'S YOUR ULTIMATE SUCCESS GOAL?</div>
+            <div class="options">
+                <button class="option-button" onclick="selectOption('10x my business revenue')">10x my business revenue</button>
+                <button class="option-button" onclick="selectOption('Automate 80% of my work')">Automate 80% of my work</button>
+                <button class="option-button" onclick="selectOption('Build a passive income stream')">Build a passive income stream</button>
+                <button class="option-button" onclick="selectOption('Become an AI expert')">Become an AI expert</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>By proceeding, you agree with <a href="#">Terms and Conditions</a>,</p>
+            <p><a href="#">Privacy Policy</a>, <a href="#">Subscription Terms</a></p>
+            <p>Movienta Inc. Toronto, Canada</p>
+        </footer>
+    </div>
+</body>
+</html> 
