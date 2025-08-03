@@ -338,7 +338,8 @@
                 </div>
                 <div style="margin: 20px 0;">
                     <input type="email" id="emailInput" placeholder="Enter your email" style="width: 100%; max-width: 400px; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; margin-bottom: 15px;">
-                    <button class="option-button" onclick="saveToFirebase()">Start Your AI Journey</button>
+                    <input type="password" id="passwordInput" placeholder="Create a password (min 6 characters)" style="width: 100%; max-width: 400px; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; margin-bottom: 15px;">
+                    <button class="option-button" onclick="createUserAndSaveData()">Start Your AI Journey</button>
                 </div>
             `;
             
@@ -347,11 +348,17 @@
             progressText.textContent = 'Complete!';
         }
 
-        async function saveToFirebase() {
+        async function createUserAndSaveData() {
             const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
             
             if (!email || !email.includes('@')) {
                 alert('Please enter a valid email address');
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                alert('Password must be at least 6 characters long');
                 return;
             }
 
@@ -363,20 +370,10 @@
             const step6 = localStorage.getItem('step6');
             const step7 = localStorage.getItem('step7');
 
-            const studentData = {
-                email: email,
-                aiExperience: step2,
-                primaryGoal: step3,
-                incomeLevel: step4,
-                timeAvailable: step5,
-                biggestChallenge: step6,
-                successGoal: step7,
-                timestamp: new Date().toISOString()
-            };
-
             try {
                 // Initialize Firebase
                 const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+                const { getAuth, createUserWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
                 const { getFirestore, collection, addDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
 
                 const firebaseConfig = {
@@ -390,19 +387,57 @@
                 };
 
                 const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
                 const db = getFirestore(app);
 
-                // Add document to students collection
+                // Create user account
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Create student data with user UID
+                const studentData = {
+                    uid: user.uid,
+                    email: email,
+                    aiExperience: step2,
+                    primaryGoal: step3,
+                    incomeLevel: step4,
+                    timeAvailable: step5,
+                    biggestChallenge: step6,
+                    successGoal: step7,
+                    timestamp: new Date().toISOString()
+                };
+
+                // Add document to students collection with user UID
                 const docRef = await addDoc(collection(db, "students"), studentData);
                 
-                console.log("Document written with ID: ", docRef.id);
+                console.log("User created with UID: ", user.uid);
+                console.log("Student document created with ID: ", docRef.id);
                 
-                // Redirect to main page
-                window.location.href = 'index.html';
+                // Clear localStorage
+                localStorage.removeItem('step1');
+                localStorage.removeItem('step2');
+                localStorage.removeItem('step3');
+                localStorage.removeItem('step4');
+                localStorage.removeItem('step5');
+                localStorage.removeItem('step6');
+                localStorage.removeItem('step7');
+                
+                // Redirect to dashboard
+                window.location.href = 'dashboard.html';
                 
             } catch (error) {
-                console.error("Error adding document: ", error);
-                alert('There was an error saving your data. Please try again.');
+                console.error("Error creating user and saving data: ", error);
+                let errorMessage = 'There was an error creating your account. Please try again.';
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'An account with this email already exists. Please sign in instead.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Password is too weak. Please choose a stronger password.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Please enter a valid email address.';
+                }
+                
+                alert(errorMessage);
             }
         }
     </script>
