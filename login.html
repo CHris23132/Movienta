@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Movienta</title>
+    <link rel="icon" type="image/png" href="Images/favicon-montevia.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .logo {
+            display: block;
+            height: 60px;
+            width: auto;
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #333333;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .back-button {
+            color: #ffffff;
+        }
+
+        .back-button:hover {
+            background-color: #f3f4f6;
+        }
+
+        .dark-mode .back-button:hover {
+            background-color: #404040;
+        }
+
+        /* Main Content */
+        .main-content {
+            text-align: center;
+            margin: 40px 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .login-card {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-color: #404040;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .login-title {
+            color: #ffffff;
+        }
+
+        .login-subtitle {
+            font-size: 1rem;
+            color: #6B7280;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .login-subtitle {
+            color: #9CA3AF;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .form-label {
+            color: #ffffff;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            background-color: #ffffff;
+            color: #333333;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .form-input {
+            background-color: #2d2d2d;
+            border-color: #404040;
+            color: #ffffff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #36b7ff;
+            box-shadow: 0 0 0 3px rgba(54, 183, 255, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            background: linear-gradient(135deg, #36b7ff, #1e88e5);
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-button:hover::before {
+            left: 100%;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(54, 183, 255, 0.3);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .form-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e5e7eb;
+        }
+
+        .dark-mode .form-divider::before {
+            background-color: #404040;
+        }
+
+        .form-divider span {
+            background-color: #ffffff;
+            padding: 0 15px;
+            color: #6B7280;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dark-mode .form-divider span {
+            background-color: #1a1a1a;
+            color: #9CA3AF;
+        }
+
+        .signup-button {
+            width: 100%;
+            background: transparent;
+            color: #36b7ff;
+            border: 2px solid #36b7ff;
+            padding: 16px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .signup-button:hover {
+            background-color: #36b7ff;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(54, 183, 255, 0.3);
+        }
+
+        .status-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-message.success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .dark-mode .status-message.success {
+            background-color: #064e3b;
+            color: #a7f3d0;
+            border-color: #065f46;
+        }
+
+        .status-message.error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .dark-mode .status-message.error {
+            background-color: #7f1d1d;
+            color: #fecaca;
+            border-color: #991b1b;
+        }
+
+        .status-message.info {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        .dark-mode .status-message.info {
+            background-color: #1e3a8a;
+            color: #bfdbfe;
+            border-color: #1e40af;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 15px 0;
+            color: #6B7280;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            margin-top: auto;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .footer {
+            color: #9CA3AF;
+        }
+
+        .footer a {
+            color: #3B82F6;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .footer a {
+            color: #60A5FA;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .login-card {
+                padding: 30px 20px;
+            }
+
+            .login-title {
+                font-size: 1.8rem;
+            }
+
+            .login-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 25px 15px;
+            }
+
+            .login-title {
+                font-size: 1.6rem;
+            }
+
+            .login-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .form-input {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+
+            .login-button {
+                padding: 14px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <script>
+        // Firebase Authentication - declare at top to avoid hoisting issues
+        let auth = null;
+        let isInitialized = false;
+
+        // Dark mode functionality based on time of day
+        function setDarkMode() {
+            const now = new Date();
+            const hour = now.getHours();
+            const body = document.body;
+            
+            // Switch to dark mode after 6 PM (18:00) and before 6 AM (06:00)
+            if (hour >= 18 || hour < 6) {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+        }
+
+        // Set initial dark mode state after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setDarkMode();
+            // Check for time changes every minute
+            setInterval(setDarkMode, 60000);
+        });
+
+        async function initializeFirebase() {
+            if (isInitialized) return;
+
+            try {
+                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+                const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBbg2kmr-MheZ3J6LIZFfxc5DlaXX-OIrc",
+                    authDomain: "movienta-9a9df.firebaseapp.com",
+                    projectId: "movienta-9a9df",
+                    storageBucket: "movienta-9a9df.firebasestorage.app",
+                    messagingSenderId: "724286492463",
+                    appId: "1:724286492463:web:ed652c5aef1cc387d6dbda",
+                    measurementId: "G-1KQPST3N1G"
+                };
+
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                isInitialized = true;
+            } catch (error) {
+                console.error('Error initializing Firebase:', error);
+                showStatus('Error initializing authentication. Please try again.', 'error');
+            }
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const loginButton = document.getElementById('loginButton');
+
+            if (!email || !email.includes('@')) {
+                showStatus('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                showStatus('Password must be at least 6 characters long.', 'error');
+                return;
+            }
+
+            try {
+                // Initialize Firebase if not already done
+                await initializeFirebase();
+
+                const { signInWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+
+                loginButton.disabled = true;
+                loginButton.textContent = 'Signing In...';
+                showStatus('Signing in...', 'info');
+
+                await signInWithEmailAndPassword(auth, email, password);
+                
+                showStatus('Successfully signed in! Redirecting...', 'success');
+                
+                // Redirect to main page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error signing in:', error);
+                let errorMessage = 'Error signing in. Please try again.';
+                
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No account found with this email address.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect password. Please try again.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Please enter a valid email address.';
+                }
+                
+                showStatus(errorMessage, 'error');
+                loginButton.disabled = false;
+                loginButton.textContent = 'Sign In';
+            }
+        }
+
+        async function handleSignup() {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const signupButton = document.getElementById('signupButton');
+
+            if (!email || !email.includes('@')) {
+                showStatus('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                showStatus('Password must be at least 6 characters long.', 'error');
+                return;
+            }
+
+            try {
+                // Initialize Firebase if not already done
+                await initializeFirebase();
+
+                const { createUserWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+
+                signupButton.disabled = true;
+                signupButton.textContent = 'Creating Account...';
+                showStatus('Creating your account...', 'info');
+
+                await createUserWithEmailAndPassword(auth, email, password);
+                
+                showStatus('Account created successfully! Redirecting...', 'success');
+                
+                // Redirect to main page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error creating account:', error);
+                let errorMessage = 'Error creating account. Please try again.';
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'An account with this email already exists. Please sign in instead.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Password is too weak. Please choose a stronger password.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Please enter a valid email address.';
+                }
+                
+                showStatus(errorMessage, 'error');
+                signupButton.disabled = false;
+                signupButton.textContent = 'Create New Account';
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message ${type}`;
+            statusDiv.style.display = 'block';
+        }
+
+        // Initialize Firebase when page loads
+        document.addEventListener('DOMContentLoaded', initializeFirebase);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button class="back-button" onclick="window.location.href='index.html'">←</button>
+            <a href="index.html" class="logo">
+                <img src="Images/Movienta-Box-logo.png" alt="Movienta Logo">
+            </a>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="login-card">
+                <h1 class="login-title">Welcome Back</h1>
+                <p class="login-subtitle">Sign in to your account</p>
+                
+                <form onsubmit="event.preventDefault(); handleLogin();">
+                    <div class="form-group">
+                        <label for="emailInput" class="form-label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="emailInput" 
+                            class="form-input" 
+                            placeholder="Enter your email address"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="passwordInput" class="form-label">Password</label>
+                        <input 
+                            type="password" 
+                            id="passwordInput" 
+                            class="form-input" 
+                            placeholder="Enter your password"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" id="loginButton" class="login-button">
+                        Sign In
+                    </button>
+                </form>
+                
+                <div class="form-divider">
+                    <span>or</span>
+                </div>
+                
+                <button type="button" id="signupButton" class="signup-button" onclick="handleSignup()">
+                    Create New Account
+                </button>
+                
+                <div id="statusMessage" class="status-message" style="display: none;"></div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>By proceeding, you agree with <a href="#">Terms and Conditions</a>,</p>
+            <p><a href="#">Privacy Policy</a>, <a href="#">Subscription Terms</a></p>
+            <p>Movienta Inc. Toronto, Canada</p>
+        </footer>
+    </div>
+</body>
+</html> 
