@@ -336,12 +336,74 @@
                     <p><strong>Biggest Challenge:</strong> ${step6}</p>
                     <p><strong>Success Goal:</strong> ${step7}</p>
                 </div>
-                <button class="option-button" onclick="window.location.href='index.html'">Start Your AI Journey</button>
+                <div style="margin: 20px 0;">
+                    <input type="email" id="emailInput" placeholder="Enter your email" style="width: 100%; max-width: 400px; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; margin-bottom: 15px;">
+                    <button class="option-button" onclick="saveToFirebase()">Start Your AI Journey</button>
+                </div>
             `;
             
             // Update progress to 100%
             const progressText = document.querySelector('.progress-text');
             progressText.textContent = 'Complete!';
+        }
+
+        async function saveToFirebase() {
+            const email = document.getElementById('emailInput').value;
+            
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            const step1 = localStorage.getItem('step1');
+            const step2 = localStorage.getItem('step2');
+            const step3 = localStorage.getItem('step3');
+            const step4 = localStorage.getItem('step4');
+            const step5 = localStorage.getItem('step5');
+            const step6 = localStorage.getItem('step6');
+            const step7 = localStorage.getItem('step7');
+
+            const studentData = {
+                email: email,
+                aiExperience: step2,
+                primaryGoal: step3,
+                incomeLevel: step4,
+                timeAvailable: step5,
+                biggestChallenge: step6,
+                successGoal: step7,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // Initialize Firebase
+                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+                const { getFirestore, collection, addDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBbg2kmr-MheZ3J6LIZFfxc5DlaXX-OIrc",
+                    authDomain: "movienta-9a9df.firebaseapp.com",
+                    projectId: "movienta-9a9df",
+                    storageBucket: "movienta-9a9df.firebasestorage.app",
+                    messagingSenderId: "724286492463",
+                    appId: "1:724286492463:web:ed652c5aef1cc387d6dbda",
+                    measurementId: "G-1KQPST3N1G"
+                };
+
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+
+                // Add document to students collection
+                const docRef = await addDoc(collection(db, "students"), studentData);
+                
+                console.log("Document written with ID: ", docRef.id);
+                
+                // Redirect to main page
+                window.location.href = 'index.html';
+                
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert('There was an error saving your data. Please try again.');
+            }
         }
     </script>
 </head>
